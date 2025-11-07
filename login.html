@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TMS - Login</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        }
+
+        .login-container {
+            background: white;
+            padding: 3rem;
+            border-radius: 1rem;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            width: 100%;
+            max-width: 450px;
+        }
+
+        .login-header {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .login-header .logo {
+            font-size: 3rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .login-header h1 {
+            font-size: 1.75rem;
+            color: var(--text-primary);
+            margin-bottom: 0.5rem;
+        }
+
+        .login-header p {
+            color: var(--text-secondary);
+        }
+
+        .login-form {
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .form-group label {
+            font-weight: 500;
+            color: var(--text-primary);
+        }
+
+        .form-group input {
+            padding: 0.875rem;
+            border: 2px solid var(--border-color);
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            transition: all 0.3s;
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+            box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+        }
+
+        .btn-login {
+            padding: 1rem;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border: none;
+            border-radius: 0.5rem;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+            margin-top: 0.5rem;
+        }
+
+        .btn-login:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
+        }
+
+        .btn-login:active {
+            transform: translateY(0);
+        }
+
+        .alert {
+            padding: 1rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            text-align: center;
+            animation: slideDown 0.3s ease-out;
+        }
+
+        .alert-error {
+            background-color: #fee2e2;
+            color: #991b1b;
+            border: 2px solid #ef4444;
+        }
+
+        .alert-success {
+            background-color: #d1fae5;
+            color: #065f46;
+            border: 2px solid #10b981;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .credentials-info {
+            margin-top: 2rem;
+            padding: 1.5rem;
+            background: var(--light-bg);
+            border-radius: 0.5rem;
+            border-left: 4px solid var(--primary-color);
+        }
+
+        .credentials-info h3 {
+            font-size: 1rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .credentials-list {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .credential-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem;
+            background: white;
+            border-radius: 0.25rem;
+            font-size: 0.875rem;
+        }
+
+        .credential-item strong {
+            color: var(--text-primary);
+        }
+
+        .credential-item span {
+            color: var(--text-secondary);
+            font-family: 'Courier New', monospace;
+        }
+
+        .loading {
+            display: none;
+            text-align: center;
+            color: var(--text-secondary);
+        }
+
+        .loading.show {
+            display: block;
+        }
+
+        @media (max-width: 768px) {
+            .login-container {
+                margin: 1rem;
+                padding: 2rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-header">
+            <div class="logo">🚦</div>
+            <h1>Traffic Management System</h1>
+            <p>Please login to continue</p>
+        </div>
+
+        <div id="alert-container"></div>
+
+        <form id="login-form" class="login-form">
+            <div class="form-group">
+                <label for="username">Username</label>
+                <input 
+                    type="text" 
+                    id="username" 
+                    name="username" 
+                    placeholder="Enter your username" 
+                    required
+                    autocomplete="username"
+                >
+            </div>
+
+            <div class="form-group">
+                <label for="password">Password</label>
+                <input 
+                    type="password" 
+                    id="password" 
+                    name="password" 
+                    placeholder="Enter your password" 
+                    required
+                    autocomplete="current-password"
+                >
+            </div>
+
+            <button type="submit" class="btn-login">Login</button>
+        </form>
+
+        <div class="credentials-info">
+            <h3>📋 Demo Credentials</h3>
+            <div class="credentials-list">
+                <div class="credential-item">
+                    <strong>Admin:</strong>
+                    <span>admin / admin123</span>
+                </div>
+                <div class="credential-item">
+                    <strong>Officer 1:</strong>
+                    <span>officer1 / officer123</span>
+                </div>
+                <div class="credential-item">
+                    <strong>Officer 2:</strong>
+                    <span>officer2 / officer456</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const API_BASE_URL = 'http://localhost:5000/api';
+
+        function showAlert(message, type = 'success') {
+            const alertContainer = document.getElementById('alert-container');
+            const alertDiv = document.createElement('div');
+            alertDiv.className = `alert alert-${type}`;
+            alertDiv.textContent = message;
+            
+            alertContainer.innerHTML = '';
+            alertContainer.appendChild(alertDiv);
+            
+            setTimeout(() => {
+                alertDiv.remove();
+            }, 4000);
+        }
+
+        document.getElementById('login-form').addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            const username = document.getElementById('username').value;
+            const password = document.getElementById('password').value;
+            
+            try {
+                const response = await fetch(`${API_BASE_URL}/auth/login`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    credentials: 'include',
+                    body: JSON.stringify({ username, password })
+                });
+                
+                const data = await response.json();
+                
+                if (response.ok) {
+                    showAlert(`Welcome, ${data.user.name}!`, 'success');
+                    
+                    // Store user info temporarily
+                    sessionStorage.setItem('justLoggedIn', 'true');
+                    
+                    // Redirect after short delay
+                    setTimeout(() => {
+                        window.location.href = '/index.html';
+                    }, 1500);
+                } else {
+                    showAlert(data.error || 'Login failed', 'error');
+                }
+            } catch (error) {
+                console.error('Error during login:', error);
+                showAlert('Network error. Please try again.', 'error');
+            }
+        });
+
+        // Don't check auth on login page - removed the checkAuth() call
+    </script>
+</body>
+</html>

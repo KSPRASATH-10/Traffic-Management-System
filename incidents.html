@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TMS - Incidents</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h2>🚦 TMS</h2>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/index.html">Dashboard</a></li>
+                <li><a href="/violations.html">Violations</a></li>
+                <li><a href="/incidents.html" class="active">Incidents</a></li>
+                <li><a href="/parking.html">Parking</a></li>
+                <li><a href="/analytics.html">Analytics</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="page-header">
+            <h1>Traffic Incidents</h1>
+            <p>Report and track traffic incidents</p>
+        </header>
+
+        <div class="form-section">
+            <h2>Report New Incident</h2>
+            <form id="incident-form" class="data-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="incident_type">Incident Type *</label>
+                        <select id="incident_type" name="incident_type" required>
+                            <option value="">Select Type</option>
+                            <option value="Accident">Accident</option>
+                            <option value="Road Blockage">Road Blockage</option>
+                            <option value="Vehicle Breakdown">Vehicle Breakdown</option>
+                            <option value="Traffic Jam">Traffic Jam</option>
+                            <option value="Construction Work">Construction Work</option>
+                            <option value="Weather Hazard">Weather Hazard</option>
+                            <option value="Other">Other</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="severity">Severity *</label>
+                        <select id="severity" name="severity" required>
+                            <option value="">Select Severity</option>
+                            <option value="Low">Low</option>
+                            <option value="Medium">Medium</option>
+                            <option value="High">High</option>
+                            <option value="Critical">Critical</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="incident_location">Location *</label>
+                        <input type="text" id="incident_location" name="location" required placeholder="e.g., Mount Road Junction">
+                    </div>
+                    <div class="form-group">
+                        <label for="reported_by">Reported By *</label>
+                        <input type="text" id="reported_by" name="reported_by" required placeholder="Reporter Name">
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="incident_description">Description *</label>
+                    <textarea id="incident_description" name="description" rows="4" required placeholder="Provide detailed information about the incident..."></textarea>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="incident_status">Status *</label>
+                        <select id="incident_status" name="status" required>
+                            <option value="Active">Active</option>
+                            <option value="In Progress">In Progress</option>
+                            <option value="Resolved">Resolved</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="vehicles_involved">Vehicles Involved</label>
+                        <input type="number" id="vehicles_involved" name="vehicles_involved" min="0" value="0" placeholder="0">
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Report Incident</button>
+            </form>
+        </div>
+
+        <div class="table-section">
+            <div class="section-header">
+                <h2>All Incidents</h2>
+                <div class="filter-group">
+                    <select id="filter-status" class="filter-select">
+                        <option value="">All Status</option>
+                        <option value="Active">Active</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Resolved">Resolved</option>
+                    </select>
+                    <select id="filter-severity" class="filter-select">
+                        <option value="">All Severity</option>
+                        <option value="Low">Low</option>
+                        <option value="Medium">Medium</option>
+                        <option value="High">High</option>
+                        <option value="Critical">Critical</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="table-container">
+                <table id="incidents-table">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Location</th>
+                            <th>Severity</th>
+                            <th>Reported By</th>
+                            <th>Date</th>
+                            <th>Status</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="incidents-tbody">
+                        <tr>
+                            <td colspan="7" class="loading">Loading incidents...</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div id="incident-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Update Incident Status</h2>
+            <form id="edit-incident-form" class="data-form">
+                <input type="hidden" id="incident_edit_id" name="id">
+                
+                <div class="form-group">
+                    <label for="incident_edit_status">Status *</label>
+                    <select id="incident_edit_status" name="status" required>
+                        <option value="Active">Active</option>
+                        <option value="In Progress">In Progress</option>
+                        <option value="Resolved">Resolved</option>
+                    </select>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Update Status</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadIncidents();
+            
+            // Filter functionality
+            document.getElementById('filter-status').addEventListener('change', function() {
+                filterIncidents();
+            });
+            document.getElementById('filter-severity').addEventListener('change', function() {
+                filterIncidents();
+            });
+        });
+    </script>
+</body>
+</html>
