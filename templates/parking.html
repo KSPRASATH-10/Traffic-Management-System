@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TMS - Parking Management</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="logo">
+                <h2>🚦 Traffic Management System</h2>
+            </div>
+            <ul class="nav-links">
+                <li><a href="/index.html">Dashboard</a></li>
+                <li><a href="/violations.html">Violations</a></li>
+                <li><a href="/incidents.html">Incidents</a></li>
+                <li><a href="/parking.html" class="active">Parking</a></li>
+                <li><a href="/analytics.html">Analytics</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container">
+        <header class="page-header">
+            <h1>Parking Management</h1>
+            <p>Manage parking zones and availability</p>
+        </header>
+
+        <div class="form-section">
+            <h2>Add New Parking Zone</h2>
+            <form id="parking-form" class="data-form">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="zone_name">Zone Name *</label>
+                        <input type="text" id="zone_name" name="zone_name" required placeholder="e.g., T Nagar Zone A">
+                    </div>
+                    <div class="form-group">
+                        <label for="zone_location">Location *</label>
+                        <input type="text" id="zone_location" name="location" required placeholder="e.g., T Nagar, Chennai">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="total_slots">Total Slots *</label>
+                        <input type="number" id="total_slots" name="total_slots" required min="1" placeholder="50">
+                    </div>
+                    <div class="form-group">
+                        <label for="occupied_slots">Occupied Slots *</label>
+                        <input type="number" id="occupied_slots" name="occupied_slots" required min="0" value="0" placeholder="0">
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="hourly_rate">Hourly Rate (₹) *</label>
+                        <input type="number" id="hourly_rate" name="hourly_rate" required min="0" placeholder="20">
+                    </div>
+                    <div class="form-group">
+                        <label for="zone_type">Zone Type *</label>
+                        <select id="zone_type" name="zone_type" required>
+                            <option value="">Select Type</option>
+                            <option value="Public">Public</option>
+                            <option value="Private">Private</option>
+                            <option value="Commercial">Commercial</option>
+                            <option value="Residential">Residential</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="parking_description">Description</label>
+                    <textarea id="parking_description" name="description" rows="3" placeholder="Additional zone details..."></textarea>
+                </div>
+
+                <button type="submit" class="btn btn-primary">Add Parking Zone</button>
+            </form>
+        </div>
+
+        <div class="table-section">
+            <div class="section-header">
+                <h2>All Parking Zones</h2>
+                <div class="filter-group">
+                    <select id="filter-zone-type" class="filter-select">
+                        <option value="">All Types</option>
+                        <option value="Public">Public</option>
+                        <option value="Private">Private</option>
+                        <option value="Commercial">Commercial</option>
+                        <option value="Residential">Residential</option>
+                    </select>
+                </div>
+            </div>
+            
+            <div class="parking-grid" id="parking-grid">
+                <p class="loading">Loading parking zones...</p>
+            </div>
+        </div>
+    </div>
+
+    <div id="parking-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Update Parking Zone</h2>
+            <form id="edit-parking-form" class="data-form">
+                <input type="hidden" id="parking_edit_id" name="id">
+                
+                <div class="form-group">
+                    <label for="edit_occupied_slots">Occupied Slots *</label>
+                    <input type="number" id="edit_occupied_slots" name="occupied_slots" required min="0">
+                </div>
+
+                <div class="form-group">
+                    <label for="edit_total_slots">Total Slots *</label>
+                    <input type="number" id="edit_total_slots" name="total_slots" required min="1">
+                </div>
+
+                <button type="submit" class="btn btn-primary">Update Zone</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="/static/script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            loadParkingZones();
+            
+            // Filter functionality
+            document.getElementById('filter-zone-type').addEventListener('change', function() {
+                filterParkingZones();
+            });
+        });
+    </script>
+</body>
+</html>
